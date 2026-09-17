@@ -1,6 +1,6 @@
 {
   "name": "ado-test-case-generator",
-  "displayName": "ADO Test Generator: Next-Gen AI Test Cases",
+  "displayName": "AI Test Case Generator for Azure DevOps",
   "description": "Generates and pushes Azure DevOps test cases using AI from PBIs.",
   "version": "1.0.0",
   "publisher": "TheertalaPraveenKumar",
