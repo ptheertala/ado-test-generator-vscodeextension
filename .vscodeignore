@@ -1,0 +1,13 @@
+.vscode/           # Ignore .vscode folder (for dev settings)
+.vscode-test/      # Ignore test environment files
+node_modules/      # Ignore node_modules
+.gitignore         # Ignore gitignore itself
+.yarnrc            # Ignore yarn configuration if present
+webpack.config.js  # Ignore webpack config if not needed in package
+vsc-extension-quickstart.md # Ignore the quickstart markdown
+**/tsconfig.json   # Ignore tsconfig.json in any sub-directory
+**/eslint.config.mjs # Ignore eslint config if present
+**/*.map           # Ignore all source map files
+**/*.ts            # Ignore all TypeScript source files (as they are compiled to JS)
+# out/             # <--- DO NOT IGNORE 'out' folder, as it contains compiled JS
+# src/             # <--- DO NOT IGNORE 'src' folder itself, but ignore its contents if compiled

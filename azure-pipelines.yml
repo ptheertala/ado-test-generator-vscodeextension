@@ -1,0 +1,70 @@
+trigger:
+- develop
+
+pool:
+  vmImage: 'windows-latest'
+
+name: $(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
+
+variables:
+  # Secret variable for Marketplace (not used anymore, can remove if you want)
+  VSCE_PAT: $(AZURE_ARTIFACTS_PAT)
+  # Name of the Azure Artifacts feed to publish the VSIX to
+  ARTIFACTS_FEED_NAME: $(AZURE_ARTIFACTS_FEED)
+
+steps:
+# 1️⃣ Install Node.js
+- task: NodeTool@0
+  inputs:
+    versionSpec: '20.x'
+  displayName: 'Install Node.js'
+
+# 2️⃣ Install vsce globally
+- script: npm install -g @vscode/vsce
+  displayName: 'Install VSCE'
+
+# 3️⃣ Install project dependencies
+- script: npm install
+  displayName: 'Install dependencies'
+
+# 4️⃣ Bump version and expose as EXT_VERSION (remove leading 'v')
+- powershell: |
+    echo "Bumping version..."
+    $newVersion = npm version patch --no-git-tag-version | Out-String
+    $newVersion = $newVersion.Trim()
+    if ($newVersion.StartsWith('v')) { $newVersion = $newVersion.Substring(1) }
+    Write-Host "##vso[task.setvariable variable=EXT_VERSION]$newVersion"
+    Write-Host "New version: $newVersion"
+  displayName: 'Bump extension version'
+
+# 5️⃣ Compile TypeScript (if any)
+- script: npm run compile
+  displayName: 'Compile extension'
+
+# 6️⃣ Package the VS Code extension (filename includes version)
+- script: |
+    vsce package -o $(Build.ArtifactStagingDirectory)/ado-test-generator-$(EXT_VERSION).vsix
+  displayName: 'Package VSIX'
+
+# 7️⃣ Publish VSIX as pipeline artifact
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish VSIX as Pipeline Artifact'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/ado-test-generator-$(EXT_VERSION).vsix'
+    ArtifactName: 'ado-test-generator-$(EXT_VERSION)'
+    publishLocation: 'Container'
+
+# 8️⃣ Publish VSIX to an Azure Artifacts feed using SYSTEM_ACCESSTOKEN
+- task: UniversalPackages@0
+  displayName: 'Publish VSIX to Artifacts feed'
+  inputs:
+    command: publish
+    publishDirectory: '$(Build.ArtifactStagingDirectory)'
+    feedsToUse: 'internal'
+    vstsFeedPublish: '$(ARTIFACTS_FEED_NAME)'
+    vstsFeedPackagePublish: 'ado-test-generator'
+    packagePublishDescription: 'VSCode extension package'
+    versionOption: 'custom'
+    versionPublish: '$(EXT_VERSION)'
+  env:
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)

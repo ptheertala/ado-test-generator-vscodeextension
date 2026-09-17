@@ -1,0 +1,24 @@
+{
+    // VS Code general settings (optional)
+    "files.exclude": {
+        "out": false,
+        "dist": false
+    },
+    "search.exclude": {
+        "out": true,
+        "dist": true
+    },
+    "typescript.tsc.autoDetect": "off",
+    "dotnet.testWindow.enableTestExplorerDiff": true,
+
+    // Your extension-specific settings
+    "adoTestGenerator.adoOrg": "https://dev.azure.com/your-org-name",
+    "adoTestGenerator.adoProject": "Your-Project-Name",
+    "adoTestGenerator.adoAreaPath": "Your-Project-Name\\Your-Area-Path",
+    "adoTestGenerator.adoIterationPath": "Your-Project-Name\\Your-Iteration-Path",
+    "adoTestGenerator.testPlanId": "your-test-plan-id",
+    "adoTestGenerator.targetTestSuiteId": "your-target-suite-id",
+    "adoTestGenerator.azureOpenAIEndpoint": "https://your-resource-name.openai.azure.com",
+    "adoTestGenerator.azureDeploymentName": "gpt-4",
+    "adoTestGenerator.azureApiVersion": "2024-02-15-preview"
+}

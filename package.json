@@ -1,0 +1,147 @@
+{
+  "name": "ado-test-generator",
+  "displayName": "ADO Test Generator: Next-Gen AI Test Cases",
+  "description": "Generates and pushes Azure DevOps test cases using AI from PBIs.",
+  "version": "1.0.0",
+  "publisher": "ptheertala",
+  "icon": "images/ado-ai-test.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ptheertala/ado-test-generator-vscodeextenstion"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:ado-test-generator.generateAndPushTests",
+    "onCommand:ado-test-generator.openSettings",
+    "onCommand:ado-test-generator.resetSecrets"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "ado-test-generator.generateAndPushTests",
+        "title": "ADO: Generate & Push Test Cases for PBI (with Review)"
+      },
+      {
+        "command": "ado-test-generator.openSettings",
+        "title": "ADO: Open Settings"
+      },
+      {
+        "command": "ado-test-generator.resetSecrets",
+        "title": "ADO: Reset Secrets"
+      }
+    ],
+    "configuration": {
+      "title": "Azure DevOps Test Generator Settings",
+      "properties": {
+        "adoTestGenerator.pythonPath": {
+          "type": "string",
+          "default": "python",
+          "description": "Path to the Python interpreter (e.g., C:\\Python310\\python.exe). Leave empty to use system default."
+        },
+        "adoTestGenerator.adoOrg": {
+          "type": "string",
+          "default": "",
+          "description": "Your Azure DevOps organization URL (e.g., https://dev.azure.com/your-org).",
+          "scope": "resource"
+        },
+        "adoTestGenerator.adoProject": {
+          "type": "string",
+          "default": "",
+          "description": "Your Azure DevOps project name.",
+          "scope": "resource"
+        },
+        "adoTestGenerator.adoProjectPBI": {
+          "type": "string",
+          "default": "",
+          "description": "The Azure DevOps project name where PBIs are located (optional, defaults to adoProject).",
+          "scope": "resource"
+        },
+        "adoTestGenerator.adoProjectTest": {
+          "type": "string",
+          "default": "",
+          "description": "The Azure DevOps project name where Test Cases will be created (optional, defaults to adoProject).",
+          "scope": "resource"
+        },
+        "adoTestGenerator.adoAreaPath": {
+          "type": "string",
+          "default": "",
+          "description": "Your Azure DevOps Area Path for new Test Cases.",
+          "scope": "resource"
+        },
+        "adoTestGenerator.adoIterationPath": {
+          "type": "string",
+          "default": "",
+          "description": "Your Azure DevOps Iteration Path for new Test Cases.",
+          "scope": "resource"
+        },
+        "adoTestGenerator.testPlanId": {
+          "type": "number",
+          "default": 0,
+          "description": "The ID of the Test Plan where new Test Cases will be added.",
+          "scope": "resource"
+        },
+        "adoTestGenerator.targetTestSuiteId": {
+          "type": "number",
+          "default": 0,
+          "description": "The ID of the Test Suite where new Test Cases will be added.",
+          "scope": "resource"
+        },
+        "adoTestGenerator.azureOpenAIEndpoint": {
+          "type": "string",
+          "default": "",
+          "description": "Azure OpenAI Service Endpoint (e.g., https://your-resource-name.openai.azure.com/).",
+          "scope": "resource"
+        },
+        "adoTestGenerator.azureDeploymentName": {
+          "type": "string",
+          "default": "gpt-4",
+          "description": "Azure OpenAI Deployment Name (e.g., gpt-4, gpt-4o).",
+          "scope": "resource"
+        },
+        "adoTestGenerator.azureApiVersion": {
+          "type": "string",
+          "default": "2024-02-15-preview",
+          "description": "Azure OpenAI API Version.",
+          "scope": "resource"
+        }
+      }
+    }
+  },
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": {
+      "supported": true
+    },
+    "secretStorage": true
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node-fetch": "^2.6.13",
+    "@types/vscode": "^1.80.0",
+    "@vscode/test-electron": "^2.3.2",
+    "glob": "^8.1.0",
+    "mocha": "^10.2.0",
+    "typescript": "^5.1.3"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "uuid": "^11.1.0"
+  }
+}
