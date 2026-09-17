@@ -136,11 +136,10 @@ This interactive workflow allows **human review and approval** before test cases
 - **Azure DevOps** account with:  
   - Personal Access Token (PAT) with *Work Items: Read & Write* permissions  
 - **Python libraries** (install by running the following in the **VS Code terminal**):  
-  ```bash
-  pip install requests
-  pip install openpyxl
-  pip install Pillow
 
+  ```bash
+  pip install -r requirements.txt
+  ```
 - **Azure OpenAI Service**:  
 
   - Access to deployed model (e.g., `gpt-4`, `gpt-4o`)  
@@ -151,20 +150,22 @@ This interactive workflow allows **human review and approval** before test cases
 
 ## 📥 Installation
 
+This extension is not published to the VS Code Marketplace. Install it from the packaged `.vsix` file:
 
-1. Open **Visual Studio Code**.  
+1. Build the package (or download a released `.vsix`):
 
-2. Go to the **Extensions** view:  
+   ```bash
+   npm install
+   npx @vscode/vsce package
+   ```
 
-   - Click the Extensions icon in the Activity Bar  
+2. Open **Visual Studio Code**.
 
-   - Or press `Ctrl+Shift+X` (Windows/Linux) or `Cmd+Shift+X` (Mac)  
+3. Go to the **Extensions** view (`Ctrl+Shift+X` / `Cmd+Shift+X`).
 
-3. Search for **"ADO Test Generator"** and click **Install**.  
+4. Click the **`...`** menu → **Install from VSIX...** and select the generated file.
 
-4. After installation, open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) to access commands:  
-
-   - **`ADO: Open Settings`**  
+5. After installation, open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) to access commands:  
 
    - **`ADO: Generate & Push Test Cases for PBI (with Review)`**  
 
@@ -229,11 +230,7 @@ Your API keys are securely stored and prompted for upon first use. All other con
 
 5. Use **Regenerate** or **Restore** if needed.   
 
-5. Click **Approve & Push** to create and link the test cases directly in Azure DevOps.
-
-
----
-
+6. Click **Approve & Push** to create and link the test cases directly in Azure DevOps.
   
 ## 🛠 Troubleshooting
 
